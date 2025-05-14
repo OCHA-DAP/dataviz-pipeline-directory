@@ -86,6 +86,10 @@ table td.NeedsReview {
   color: #F7A29C;
   font-weight: bold;
 }
+table td.Blocked {
+  color: red;
+  font-weight: bold;
+}
 
 button {
   border: 1px solid transparent;
@@ -113,4 +117,30 @@ button:focus-visible {
   /*filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(118%) contrast(119%);*/
   position: absolute;
   transform-origin: center top;
+}
+
+p.count {
+  padding-left: 8px;
+}
+
+.fixTableHead {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.fixTableHead thead th {
+  position: sticky;
+  top: 0;
+}
+.filters {
+  padding: 8px 0 16px;
+}
+.filters label {
+  margin-right: 20px;
+}
+.filters select {
+  margin-left: 8px;
+}
+table {
+  table-layout: fixed;
+  width: 100%;
 }
