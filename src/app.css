@@ -76,7 +76,6 @@ table td.Active {
 table td.InDevelopment {
   color: #007CE0;
   font-weight: bold;
-  text-wrap: nowrap;
 }
 table td.Retired {
   color: #F2645A;
