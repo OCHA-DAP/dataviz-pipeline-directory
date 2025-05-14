@@ -2,6 +2,7 @@
   import Papa from 'papaparse'
   import DataVisualizations from './pages/DataVisualizations.svelte'
   import Pipelines from './pages/Pipelines.svelte'
+  import PartnerPipelines from './pages/PartnerPipelines.svelte'
 
   let vizData = [];
   Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vRqBuIYkkzFIMlq541njH9S9mO-nda40sab-AMP4tlhcWFiZt0QrcXOVS44ALJtDW17yu53vyhbUEuY/pub?gid=0&single=true&output=csv', {
@@ -13,7 +14,7 @@
   })
 
   let pipelineData = [];
-  Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vRqBuIYkkzFIMlq541njH9S9mO-nda40sab-AMP4tlhcWFiZt0QrcXOVS44ALJtDW17yu53vyhbUEuY/pub?gid=87687849&single=true&output=csv', {
+  Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vRqBuIYkkzFIMlq541njH9S9mO-nda40sab-AMP4tlhcWFiZt0QrcXOVS44ALJtDW17yu53vyhbUEuY/pub?gid=934366997&single=true&output=csv', {
     header: true,
     download: true,
     complete: function(results) {
@@ -21,8 +22,17 @@
     }
   })
 
-  $: tabs = [{name: 'Data Visualizations'}, {name: 'Pipelines'}];
-  $: activeTab = 1;
+  let partnerPipelineData = [];
+  Papa.parse('https://docs.google.com/spreadsheets/d/e/2PACX-1vRqBuIYkkzFIMlq541njH9S9mO-nda40sab-AMP4tlhcWFiZt0QrcXOVS44ALJtDW17yu53vyhbUEuY/pub?gid=2122600624&single=true&output=csv', {
+    header: true,
+    download: true,
+    complete: function(results) {
+      partnerPipelineData = results.data
+    }
+  })
+
+  $: tabs = [{name: 'Pipelines'}, {name: 'Partner Pipelines'}, {name: 'Data Visualizations'}];
+  $: activeTab = 0;
 
 </script>
 
@@ -46,9 +56,11 @@
   {#each tabs as tab, idx}
     {#if idx === activeTab}
       {#if idx===0}
-        <DataVisualizations data={vizData} />
-      {:else}
         <Pipelines data={pipelineData} />
+      {:else if idx===1}
+        <PartnerPipelines data={partnerPipelineData} />
+      {:else}
+        <DataVisualizations data={vizData} />
       {/if}
     {/if}
   {/each}
@@ -71,7 +83,7 @@
     display: flex;
     flex-flow: row;
     height: 50px;
-    margin-top: 30px;
+    margin-top: 10px;
     justify-content: center;
   }
   .tab {

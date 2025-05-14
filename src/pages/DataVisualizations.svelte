@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import { sort } from '../lib/Sort.svelte';
   export let data;
   
@@ -16,22 +17,36 @@
 
     sortedData = sort(sortedData, column, sortBy);
   }
+
+  onMount(() => {
+    const div = document.getElementById('table-container');
+    const rect = div.getBoundingClientRect();
+
+    const viewportHeight = window.innerHeight;
+    const availableHeight = viewportHeight - rect.top - 50;
+
+    div.style.height = `${availableHeight}px`;
+  });
 </script>
 
 <section>
-  <div class="fixTableHead">
+  <div class='fixTableHead' id='table-container'>
     <table>
+      <colgroup>
+        <col style='width: 10%;' span='8'>
+        <col>
+      </colgroup>
       <thead>
         <tr>
           <th class='sortable' on:click={sorter('Name')}>Name <i class='icon-sort'></i></th>
           <th class='sortable' on:click={sorter('Status')}>Status <i class='icon-sort'></i></th>
           <th>Owner</th>
-          <th>Notes</th>
           <th class='sortable' on:click={sorter('Date created')}>Date created <i class='icon-sort'></i></th>
           <th class='sortable' on:click={sorter('Date retired')}>Date retired <i class='icon-sort'></i></th>
           <th>Code</th>
           <th>Scraper</th>
           <th>Datasheet</th>
+          <th>Notes</th>
         </tr>
       </thead>
       <tbody>
@@ -52,7 +67,6 @@
                 {row['Owner']}
               {/if}
             </td>
-            <td>{row['Notes']}</td>
             <td>{row['Date created']}</td>
             <td>{row['Date retired']}</td>
             <td>
@@ -70,20 +84,18 @@
                 <a href={row['Data sheet']} target='_blank'>Datasheet</a>
               {/if}
             </td>
+            <td>{row['Notes']}</td>
           </tr>
         {/each}
       </tbody>
     </table>
   </div>
+  <p class='count'>Count: <b>{sortedData.length}</b></p>
 </section>
 
-<style>
-  .fixTableHead {
-    overflow-y: auto;
-    height: 75vh;
-  }
-  .fixTableHead thead th {
-    position: sticky;
-    top: 0;
-  }
+<style>  
+.fixTableHead {
+  height: auto;
+  max-height: 75vh;
+}
 </style>
