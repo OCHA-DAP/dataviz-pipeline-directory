@@ -96,7 +96,7 @@
           <th>Type</th>
           <th>DSys owner</th>
           <th>DPT/ DSci focal point</th>
-          <th class='sortable' on:click={sorter('Date created')}>Date completed <i class='icon-sort'></i></th>
+          <th class='sortable' on:click={sorter('Date completed')}>Date completed <i class='icon-sort'></i></th>
           <th class='sortable' on:click={sorter('Date retired')}>Date retired <i class='icon-sort'></i></th>
           <th>Run location</th>
           <th>Schedule</th>
