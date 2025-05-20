@@ -1,6 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { sort } from '../lib/Sort.svelte';
+  import { parseJenkinsCron } from '../lib/cronUtils.js'; 
   import cronstrue from 'cronstrue';
 
   export let data;
@@ -11,7 +12,12 @@
   $: formattedData = data?.map(d => {
     let readableSchedule;
     try {
-      readableSchedule = d.Schedule ? cronstrue.toString(d.Schedule, { verbose: true }) : d.Schedule;
+      if (d.Schedule.includes('H')) {
+        readableSchedule = parseJenkinsCron(d.Schedule);
+      }
+      else {
+        readableSchedule = d.Schedule ? cronstrue.toString(d.Schedule, { verbose: true }) : d.Schedule;
+      } 
     } catch (e) {
       readableSchedule = d.Schedule;
     }
@@ -128,7 +134,7 @@
                 {row['Run location']}
               {/if}
             </td>
-            <td>{row['readableSchedule']}</td>
+            <td><a class='no-link'title={row['Schedule']}>{row['readableSchedule']}</a></td>
             <td>{row['Duration']}</td>
             <td>{row['P-coded']}</td>
             <td>{row['Additional info']}</td>
@@ -161,5 +167,10 @@
   table {
     table-layout: fixed;
     width: 100%;
+  }
+  a.no-link {
+    color: #000;
+    cursor: pointer;
+    text-decoration: none;
   }
 </style>

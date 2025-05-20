@@ -78,7 +78,7 @@ table td.InDevelopment {
   font-weight: bold;
 }
 table td.Retired {
-  color: #F2645A;
+  color: orange;
   font-weight: bold;
 }
 table td.NeedsReview {
