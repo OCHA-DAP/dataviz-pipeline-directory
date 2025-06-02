@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from 'svelte';
   import { sort } from '../lib/Sort.svelte';
   export let data;
   
@@ -24,6 +25,16 @@
     const matchesStatus = statusFilter === 'All' || d.Status === statusFilter;
     return matchesStatus;
   });
+
+  onMount(() => {
+    const div = document.getElementById('table-container');
+    const rect = div.getBoundingClientRect();
+
+    const viewportHeight = window.innerHeight;
+    const availableHeight = viewportHeight - rect.top - 50;
+
+    div.style.height = `${availableHeight}px`;
+  });
 </script>
 
 <section>
@@ -39,7 +50,7 @@
     </label>
   </div>
 
-  <div class="fixTableHead">
+  <div class="fixTableHead" id='table-container'>
     <table>
       <colgroup>
         <col style="width: 14%;" span="5">
@@ -75,7 +86,7 @@
       </tbody>
     </table>
   </div>
-  <p class='count'>Count: <b>{sortedData.length}</b></p>
+  <p class='count'>Count: <b>{filteredData.length}</b></p>
 </section>
 
 <style>
